@@ -10,7 +10,7 @@ const MyPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    requestUserInfo("kakao")
+    requestUserInfo()
       .then((response) => {
         setUserInfo(response);
       })
@@ -31,7 +31,7 @@ const MyPage: React.FC = () => {
       {userInfo && (
         <div>
           <ProfileImage src={userInfo.profile_image_url} alt="프로필 이미지" />
-          <p>닉네임: {userInfo.nickname}</p>
+          <p>이름: {userInfo.name}</p>
           <p>이메일: {userInfo.email}</p>
         </div>
       )}

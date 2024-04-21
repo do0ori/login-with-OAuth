@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { AUTH_TOKEN_URL } from "../apis/auth.api";
+import { GET_CODE_URL } from "../apis/auth.api";
 
 export const KakaoLoginButton = () => {
   const onClick = () => {
-    window.location.href = AUTH_TOKEN_URL["kakao"];
+    window.location.href = GET_CODE_URL["kakao"];
   };
 
   return (
@@ -20,8 +20,7 @@ export const KakaoLoginButton = () => {
 
 export const NaverLoginButton = () => {
   const onClick = () => {
-    console.log("naver");
-    // window.location.href = AUTH_TOKEN_URL["naver"];
+    window.location.href = GET_CODE_URL["naver"];
   };
 
   return (
@@ -33,8 +32,7 @@ export const NaverLoginButton = () => {
 
 export const GoogleLoginButton = () => {
   const onClick = () => {
-    console.log("google");
-    // window.location.href = AUTH_TOKEN_URL["google"];
+    window.location.href = GET_CODE_URL["google"];
   };
 
   return (
