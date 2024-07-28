@@ -2,14 +2,28 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [];
+    private readonly users = [];
 
-  create(user) {
-    this.users.push(user);
-    return user;
-  }
+    create(user: any) {
+        this.users.push(user);
+        return user;
+    }
 
-  async findOne(username: string) {
-    return this.users.find((user) => user.username === username);
-  }
+    async findById(id: string) {
+        return this.users.find((user) => user.id === id);
+    }
+
+    async findBySocialId(socialId: string) {
+        return this.users.find((user) => user.socialId === socialId);
+    }
+
+    async update(id: string, user: any) {
+        const index = this.users.findIndex((existingUser) => existingUser.id === id);
+
+        if (index === -1) throw new Error('User not found');
+
+        this.users[index] = { ...this.users[index], ...user };
+
+        return this.users[index];
+    }
 }
