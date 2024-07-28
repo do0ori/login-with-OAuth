@@ -1,4 +1,4 @@
-# 🔒OAuth
+# 🔒 OAuth
 
 <p>
   <a href="#kakao-oauth"><img src="https://img.shields.io/badge/Kakao-FEE500?style=for-the-badge"></a>
@@ -8,7 +8,7 @@
 
 https://github.com/do0ori/login-with-OAuth/assets/71831926/606503b1-0e98-4db8-aa47-731b479fba3c
 
-## 🟨[Kakao OAuth](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
+## 🟨 [Kakao OAuth](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
 
 ### Kakao Developers 사전 작업
 
@@ -42,7 +42,7 @@ https://github.com/do0ori/login-with-OAuth/assets/71831926/606503b1-0e98-4db8-aa
 
 ![Kakao-OAuth drawio](https://github.com/do0ori/login-with-OAuth/assets/71831926/81719c79-5ec6-4145-bb1f-1f69e884018b)
 
-## 🟩[Naver OAuth](https://developers.naver.com/docs/login/web/web.md)
+## 🟩 [Naver OAuth](https://developers.naver.com/docs/login/web/web.md)
 
 ### [Naver Developers 사전 작업](https://developers.naver.com/docs/common/openapiguide/appregister.md#%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EB%93%B1%EB%A1%9D)
 
@@ -67,7 +67,7 @@ https://github.com/do0ori/login-with-OAuth/assets/71831926/606503b1-0e98-4db8-aa
 
 ![Naver-OAuth drawio](https://github.com/do0ori/login-with-OAuth/assets/71831926/84b28652-7335-416d-b2ea-77e00c95c2b5)
 
-## 🟦[Google OAuth](https://developers.google.com/identity/protocols/oauth2/web-server?hl=ko)
+## 🟦 [Google OAuth](https://developers.google.com/identity/protocols/oauth2/web-server?hl=ko)
 
 ### Google Cloud Console 사전 작업
 
