@@ -1,17 +1,18 @@
 import { Controller, Get, Post } from '@nestjs/common';
+
 import { UsersService } from './users.service';
 
-@Controller('api/users/me')
+@Controller('users/me')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+    constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create() {
-    // return this.usersService.create(user);
-  }
+    @Post()
+    create() {
+        // return this.usersService.create(user);
+    }
 
-  @Get()
-  findOne() {
-    // return this.usersService.findOne(id);
-  }
+    @Get()
+    findOne() {
+        // return this.usersService.findOne(id);
+    }
 }
