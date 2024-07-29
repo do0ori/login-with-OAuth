@@ -5,31 +5,31 @@ import { AuthService } from 'src/auth/auth.service';
 
 import { parse } from 'src/utils/ms.util';
 
-import { AuthGoogleService } from './auth-google.service';
+import { AuthKakaoService } from './auth-kakao.service';
 
 import { AllConfigType } from '../config/config.type';
 
-@Controller('auth/google')
-export class AuthGoogleController {
+@Controller('auth/kakao')
+export class AuthKakaoController {
     constructor(
         private readonly authService: AuthService,
-        private readonly authGoogleService: AuthGoogleService,
+        private readonly authKakaoService: AuthKakaoService,
         private readonly configService: ConfigService<AllConfigType>,
     ) {}
 
     @Get('login')
-    async googleAuthorize(@Res({ passthrough: true }) response: Response): Promise<void> {
-        const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
+    async kakaoAuthorize(@Res({ passthrough: true }) response: Response): Promise<void> {
+        const url = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&scope=account_email,profile_nickname,profile_image`;
 
         response.redirect(url);
     }
 
     @Get('callback')
-    async googleCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response) {
+    async kakaoCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response) {
         if (!authorizeCode) response.sendStatus(HttpStatus.BAD_REQUEST);
 
-        const socialData = await this.authGoogleService.getProfile(authorizeCode);
-        const loginData = await this.authService.validateSocialLogin('google', socialData);
+        const socialData = await this.authKakaoService.getProfile(authorizeCode);
+        const loginData = await this.authService.validateSocialLogin('kakao', socialData);
 
         // TODO: cookie 설정하는 부분은 추후 naver, kakao까지 구현 후 분리 필요
         const baseCookieOptions: CookieOptions = {

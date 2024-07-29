@@ -7,7 +7,9 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthGoogleModule } from './auth-google/auth-google.module';
 import googleConfig from './auth-google/config/google.config';
+import { AuthKakaoModule } from './auth-kakao/auth-kakao.module';
 import kakaoConfig from './auth-kakao/config/kakao.config';
+import { AuthNaverModule } from './auth-naver/auth-naver.module';
 import naverConfig from './auth-naver/config/naver.config';
 import appConfig from './config/app.config';
 import tokenConfig from './token/config/token.config';
@@ -21,6 +23,8 @@ import tokenConfig from './token/config/token.config';
         }),
         AuthModule,
         AuthGoogleModule,
+        AuthKakaoModule,
+        AuthNaverModule,
     ],
     controllers: [AppController],
     providers: [AppService],

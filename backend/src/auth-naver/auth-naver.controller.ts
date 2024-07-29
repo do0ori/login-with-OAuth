@@ -5,31 +5,31 @@ import { AuthService } from 'src/auth/auth.service';
 
 import { parse } from 'src/utils/ms.util';
 
-import { AuthGoogleService } from './auth-google.service';
+import { AuthNaverService } from './auth-naver.service';
 
 import { AllConfigType } from '../config/config.type';
 
-@Controller('auth/google')
-export class AuthGoogleController {
+@Controller('auth/naver')
+export class AuthNaverController {
     constructor(
         private readonly authService: AuthService,
-        private readonly authGoogleService: AuthGoogleService,
+        private readonly authNaverService: AuthNaverService,
         private readonly configService: ConfigService<AllConfigType>,
     ) {}
 
     @Get('login')
-    async googleAuthorize(@Res({ passthrough: true }) response: Response): Promise<void> {
-        const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
+    async naverAuthorize(@Res({ passthrough: true }) response: Response): Promise<void> {
+        const url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NAVER_CLIENT_ID}&redirect_uri=${encodeURI(process.env.NAVER_REDIRECT_URI)}&state=naverLoginState`;
 
         response.redirect(url);
     }
 
     @Get('callback')
-    async googleCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response) {
+    async naverCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response) {
         if (!authorizeCode) response.sendStatus(HttpStatus.BAD_REQUEST);
 
-        const socialData = await this.authGoogleService.getProfile(authorizeCode);
-        const loginData = await this.authService.validateSocialLogin('google', socialData);
+        const socialData = await this.authNaverService.getProfile(authorizeCode);
+        const loginData = await this.authService.validateSocialLogin('naver', socialData);
 
         // TODO: cookie 설정하는 부분은 추후 naver, kakao까지 구현 후 분리 필요
         const baseCookieOptions: CookieOptions = {
