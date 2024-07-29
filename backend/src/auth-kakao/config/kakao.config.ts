@@ -9,25 +9,25 @@ import { SocialConfig } from '../../auth/types/social-config.type';
 class EnvironmentVariablesValidator {
     @IsString()
     @IsOptional()
-    GOOGLE_CLIENT_ID: string;
+    KAKAO_CLIENT_ID: string;
 
     @IsString()
     @IsOptional()
-    GOOGLE_CLIENT_SECRET: string;
+    KAKAO_CLIENT_SECRET: string;
 
     @IsString()
     @IsOptional()
-    GOOGLE_REDIRECT_URI: string;
+    KAKAO_REDIRECT_URI: string;
 }
 
-export default registerAs<SocialConfig>('google', () => {
+export default registerAs<SocialConfig>('kakao', () => {
     validateConfig(process.env, EnvironmentVariablesValidator);
 
     return {
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        tokenAPI: 'https://oauth2.googleapis.com/token',
-        userInfoAPI: 'https://www.googleapis.com/oauth2/v2/userinfo',
-        redirectURI: process.env.GOOGLE_REDIRECT_URI,
+        clientId: process.env.KAKAO_CLIENT_ID,
+        clientSecret: process.env.KAKAO_CLIENT_SECRET,
+        tokenAPI: 'https://kauth.kakao.com/oauth/token',
+        userInfoAPI: 'https://kapi.kakao.com/v2/user/me',
+        redirectURI: process.env.KAKAO_REDIRECT_URI,
     };
 });

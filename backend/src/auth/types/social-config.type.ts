@@ -1,4 +1,4 @@
-export type GoogleConfig = {
+export type SocialConfig = {
     clientId: string;
     clientSecret: string;
     tokenAPI: string;

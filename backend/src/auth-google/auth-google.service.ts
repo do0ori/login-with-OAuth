@@ -5,13 +5,14 @@ import { firstValueFrom } from 'rxjs';
 import { SocialData } from 'src/auth/interfaces/social-data.interface';
 import { AllConfigType } from 'src/config/config.type';
 
-import { GoogleConfig } from './config/google-config.type';
 import { GoogleToken } from './interfaces/google-token.interface';
 import { GoogleUserInfo } from './interfaces/google-user-info.interface';
 
+import { SocialConfig } from '../auth/types/social-config.type';
+
 @Injectable()
 export class AuthGoogleService {
-    private google: GoogleConfig;
+    private google: SocialConfig;
 
     constructor(
         private readonly httpService: HttpService,
