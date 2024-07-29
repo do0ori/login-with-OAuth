@@ -1,13 +1,12 @@
 import { Controller, Get, HttpStatus, Query, Res } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CookieOptions, Response } from 'express';
+import { Response } from 'express';
 import { AuthService } from 'src/auth/auth.service';
-
-import { parse } from 'src/utils/ms.util';
 
 import { AuthNaverService } from './auth-naver.service';
 
 import { AllConfigType } from '../config/config.type';
+import { CookieService } from '../utils/cookie-service.util';
 
 @Controller('auth/naver')
 export class AuthNaverController {
@@ -15,6 +14,7 @@ export class AuthNaverController {
         private readonly authService: AuthService,
         private readonly authNaverService: AuthNaverService,
         private readonly configService: ConfigService<AllConfigType>,
+        private readonly cookieService: CookieService,
     ) {}
 
     @Get('login')
@@ -31,21 +31,7 @@ export class AuthNaverController {
         const socialData = await this.authNaverService.getProfile(authorizeCode);
         const loginData = await this.authService.validateSocialLogin('naver', socialData);
 
-        // TODO: cookie 설정하는 부분은 추후 naver, kakao까지 구현 후 분리 필요
-        const baseCookieOptions: CookieOptions = {
-            httpOnly: true,
-            secure: this.configService.getOrThrow('app.nodeEnv', { infer: true }) === 'prod',
-            sameSite: 'lax',
-        };
-
-        response.cookie('accessToken', loginData.accessToken, {
-            ...baseCookieOptions,
-            maxAge: parse(this.configService.getOrThrow('token.accessTokenLifeTime', { infer: true })),
-        });
-        response.cookie('refreshToken', loginData.refreshToken, {
-            ...baseCookieOptions,
-            maxAge: parse(this.configService.getOrThrow('token.refreshTokenLifeTime', { infer: true })),
-        });
+        this.cookieService.setCookies(response, loginData);
 
         response.redirect('http://localhost:3000/me');
     }

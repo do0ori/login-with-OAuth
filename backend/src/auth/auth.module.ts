@@ -9,6 +9,7 @@ import { AuthService } from './auth.service';
 
 import { TokenModule } from '../token/token.module';
 import { UsersService } from '../users/users.service';
+import { CookieService } from '../utils/cookie-service.util';
 
 @Module({
     imports: [
@@ -23,7 +24,7 @@ import { UsersService } from '../users/users.service';
         TokenModule,
     ],
     controllers: [AuthController],
-    providers: [UsersService, AuthService],
-    exports: [AuthService],
+    providers: [UsersService, AuthService, CookieService],
+    exports: [AuthService, CookieService],
 })
 export class AuthModule {}
