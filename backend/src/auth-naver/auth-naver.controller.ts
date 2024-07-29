@@ -19,7 +19,7 @@ export class AuthNaverController {
 
     @Get('login')
     async naverAuthorize(@Res({ passthrough: true }) response: Response): Promise<void> {
-        const url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NAVER_CLIENT_ID}&redirect_uri=${encodeURI(process.env.NAVER_REDIRECT_URI)}&state=naverLoginState`;
+        const url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${this.configService.getOrThrow('naver.clientId', { infer: true })}&redirect_uri=${encodeURI(this.configService.getOrThrow('naver.redirectURI', { infer: true }))}&state=naverLoginState`;
 
         response.redirect(url);
     }

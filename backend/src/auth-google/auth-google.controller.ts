@@ -19,7 +19,7 @@ export class AuthGoogleController {
 
     @Get('login')
     async googleAuthorize(@Res({ passthrough: true }) response: Response): Promise<void> {
-        const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
+        const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${this.configService.getOrThrow('google.clientId', { infer: true })}&redirect_uri=${this.configService.getOrThrow('google.redirectURI', { infer: true })}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
 
         response.redirect(url);
     }
