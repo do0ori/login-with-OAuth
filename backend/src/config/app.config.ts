@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
 
-import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, IsUrl, Max, Min } from 'class-validator';
 
 import { AppConfig } from './app-config.type';
 
@@ -16,6 +16,14 @@ class EnvironmentVariablesValidator {
     @IsEnum(Environment)
     @IsOptional()
     NODE_ENV: Environment;
+
+    @IsUrl({ require_tld: false })
+    @IsOptional()
+    FRONTEND_DOMAIN: string;
+
+    @IsUrl({ require_tld: false })
+    @IsOptional()
+    BACKEND_DOMAIN: string;
 
     @IsInt()
     @Min(0)
@@ -35,6 +43,8 @@ export default registerAs<AppConfig>('app', () => {
         nodeEnv: process.env.NODE_ENV || 'development',
         name: process.env.APP_NAME || 'app',
         workingDirectory: process.env.PWD || process.cwd(),
+        frontendDomain: process.env.FRONTEND_DOMAIN ?? 'http://localhost:3000',
+        backendDomain: process.env.BACKEND_DOMAIN ?? 'http://localhost',
         port: process.env.APP_PORT
             ? parseInt(process.env.APP_PORT, 10)
             : process.env.PORT

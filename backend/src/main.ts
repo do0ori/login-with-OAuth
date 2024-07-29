@@ -15,7 +15,7 @@ async function bootstrap() {
     });
 
     app.enableCors({
-        origin: ['http://localhost:3000'],
+        origin: [configService.getOrThrow('app.frontendDomain', { infer: true })],
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
         credentials: true,
