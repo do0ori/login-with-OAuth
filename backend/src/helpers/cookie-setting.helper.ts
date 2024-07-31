@@ -2,13 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CookieOptions, Response } from 'express';
 
-import { parse } from './ms.util';
-
 import { LoginData } from '../auth/interfaces/login-data.interface';
 import { AllConfigType } from '../config/config.type';
+import { parse } from '../utils/ms.util';
 
 @Injectable()
-export class CookieService {
+export class CookieSettingHelper {
     private readonly baseCookieOptions: CookieOptions;
     private readonly accessCookieOptions: CookieOptions;
     private readonly refreshCookieOptions: CookieOptions;

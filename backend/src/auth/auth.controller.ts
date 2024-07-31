@@ -4,14 +4,14 @@ import { UsersService } from 'src/users/users.service';
 
 import { AuthService } from './auth.service';
 
-import { CookieService } from '../utils/cookie-service.util';
+import { CookieSettingHelper } from '../helpers/cookie-setting.helper';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly usersService: UsersService,
         private readonly authService: AuthService,
-        private readonly cookieService: CookieService,
+        private readonly cookieSettingHelper: CookieSettingHelper,
     ) {}
 
     private readonly logger = new Logger(AuthController.name);
@@ -124,7 +124,7 @@ export class AuthController {
 
     @Get('logout')
     async logout(@Res({ passthrough: true }) response: Response): Promise<void> {
-        this.cookieService.clearCookies(response);
+        this.cookieSettingHelper.clearCookies(response);
 
         response.redirect('http://localhost:3000/');
     }

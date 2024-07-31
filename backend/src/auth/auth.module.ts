@@ -7,9 +7,9 @@ import { AuthController } from './auth.controller';
 
 import { AuthService } from './auth.service';
 
+import { CookieSettingHelper } from '../helpers/cookie-setting.helper';
 import { TokenModule } from '../token/token.module';
 import { UsersService } from '../users/users.service';
-import { CookieService } from '../utils/cookie-service.util';
 
 @Module({
     imports: [
@@ -24,7 +24,7 @@ import { CookieService } from '../utils/cookie-service.util';
         TokenModule,
     ],
     controllers: [AuthController],
-    providers: [UsersService, AuthService, CookieService],
-    exports: [AuthService, CookieService],
+    providers: [UsersService, AuthService, CookieSettingHelper],
+    exports: [AuthService, CookieSettingHelper],
 })
 export class AuthModule {}

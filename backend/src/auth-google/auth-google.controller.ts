@@ -6,7 +6,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { AuthGoogleService } from './auth-google.service';
 
 import { AllConfigType } from '../config/config.type';
-import { CookieService } from '../utils/cookie-service.util';
+import { CookieSettingHelper } from '../helpers/cookie-setting.helper';
 
 @Controller('auth/google')
 export class AuthGoogleController {
@@ -14,7 +14,7 @@ export class AuthGoogleController {
         private readonly authService: AuthService,
         private readonly authGoogleService: AuthGoogleService,
         private readonly configService: ConfigService<AllConfigType>,
-        private readonly cookieService: CookieService,
+        private readonly cookieSettingHelper: CookieSettingHelper,
     ) {}
 
     @Get('login')
@@ -31,7 +31,7 @@ export class AuthGoogleController {
         const socialData = await this.authGoogleService.getProfile(authorizeCode);
         const loginData = await this.authService.validateSocialLogin('google', socialData);
 
-        this.cookieService.setCookies(response, loginData);
+        this.cookieSettingHelper.setCookies(response, loginData);
 
         response.redirect('http://localhost:3000/me');
     }

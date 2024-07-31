@@ -6,7 +6,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { AuthNaverService } from './auth-naver.service';
 
 import { AllConfigType } from '../config/config.type';
-import { CookieService } from '../utils/cookie-service.util';
+import { CookieSettingHelper } from '../helpers/cookie-setting.helper';
 
 @Controller('auth/naver')
 export class AuthNaverController {
@@ -14,7 +14,7 @@ export class AuthNaverController {
         private readonly authService: AuthService,
         private readonly authNaverService: AuthNaverService,
         private readonly configService: ConfigService<AllConfigType>,
-        private readonly cookieService: CookieService,
+        private readonly cookieSettingHelper: CookieSettingHelper,
     ) {}
 
     @Get('login')
@@ -31,7 +31,7 @@ export class AuthNaverController {
         const socialData = await this.authNaverService.getProfile(authorizeCode);
         const loginData = await this.authService.validateSocialLogin('naver', socialData);
 
-        this.cookieService.setCookies(response, loginData);
+        this.cookieSettingHelper.setCookies(response, loginData);
 
         response.redirect('http://localhost:3000/me');
     }

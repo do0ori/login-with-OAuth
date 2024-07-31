@@ -6,7 +6,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { AuthKakaoService } from './auth-kakao.service';
 
 import { AllConfigType } from '../config/config.type';
-import { CookieService } from '../utils/cookie-service.util';
+import { CookieSettingHelper } from '../helpers/cookie-setting.helper';
 
 @Controller('auth/kakao')
 export class AuthKakaoController {
@@ -14,7 +14,7 @@ export class AuthKakaoController {
         private readonly authService: AuthService,
         private readonly authKakaoService: AuthKakaoService,
         private readonly configService: ConfigService<AllConfigType>,
-        private readonly cookieService: CookieService,
+        private readonly cookieSettingHelper: CookieSettingHelper,
     ) {}
 
     @Get('login')
@@ -31,7 +31,7 @@ export class AuthKakaoController {
         const socialData = await this.authKakaoService.getProfile(authorizeCode);
         const loginData = await this.authService.validateSocialLogin('kakao', socialData);
 
-        this.cookieService.setCookies(response, loginData);
+        this.cookieSettingHelper.setCookies(response, loginData);
 
         response.redirect('http://localhost:3000/me');
     }
