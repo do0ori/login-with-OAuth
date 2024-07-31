@@ -30,7 +30,7 @@ export default registerAs<TokenConfig>('token', () => {
     return {
         accessTokenLifeTime: process.env.ACCESS_TOKEN_LIFETIME,
         refreshTokenLifeTime: process.env.REFRESH_TOKEN_LIFETIME,
-        accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
-        refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
+        accessSecret: process.env.ACCESS_TOKEN_SECRET,
+        refreshSecret: process.env.REFRESH_TOKEN_SECRET,
     };
 });

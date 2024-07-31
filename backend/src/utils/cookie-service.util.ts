@@ -34,14 +34,14 @@ export class CookieService {
     }
 
     setCookies(response: Response, loginData: LoginData): void {
-        response.cookie('accessToken', loginData.accessToken, this.accessCookieOptions);
-        response.cookie('refreshToken', loginData.refreshToken, this.refreshCookieOptions);
+        response.cookie('access_token', loginData.accessToken, this.accessCookieOptions);
+        response.cookie('refresh_token', loginData.refreshToken, this.refreshCookieOptions);
         response.cookie('provider', loginData.provider, this.baseCookieOptions);
     }
 
     clearCookies(response: Response): void {
-        response.clearCookie('accessToken', this.accessCookieOptions);
-        response.clearCookie('refreshToken', this.refreshCookieOptions);
+        response.clearCookie('access_token', this.accessCookieOptions);
+        response.clearCookie('refresh_token', this.refreshCookieOptions);
         response.clearCookie('provider', this.baseCookieOptions);
     }
 }

@@ -28,7 +28,7 @@ export class TokenService {
         };
 
         const newToken = await this.jwtService.signAsync(payload, {
-            secret: this.token.accessTokenSecret,
+            secret: this.token.accessSecret,
             expiresIn: this.token.accessTokenLifeTime,
         });
 
@@ -42,7 +42,7 @@ export class TokenService {
         };
 
         const newToken = await this.jwtService.signAsync(payload, {
-            secret: this.token.refreshTokenSecret,
+            secret: this.token.refreshSecret,
             expiresIn: this.token.refreshTokenLifeTime,
         });
 
