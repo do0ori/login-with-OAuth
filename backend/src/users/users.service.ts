@@ -9,7 +9,7 @@ export class UsersService {
         return user;
     }
 
-    async findById(id: string) {
+    async findById(id: number) {
         return this.users.find((user) => user.id === id);
     }
 
@@ -17,7 +17,7 @@ export class UsersService {
         return this.users.find((user) => user.socialId === socialId);
     }
 
-    async update(id: string, user: any) {
+    async update(id: number, user: any) {
         const index = this.users.findIndex((existingUser) => existingUser.id === id);
 
         if (index === -1) throw new Error('User not found');
