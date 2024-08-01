@@ -8,6 +8,29 @@
 
 https://github.com/do0ori/login-with-OAuth/assets/71831926/606503b1-0e98-4db8-aa47-731b479fba3c
 
+## 🔄 OAuth Login Flow
+
+```mermaid
+sequenceDiagram
+    participant A as Fronted App (Web, Mobile, Desktop)
+    participant B as Backend App
+    participant C as External Auth Services (Kakao, Naver, Google, etc)
+
+    A->>B: 1. Request social login
+    B->>A: 2. Redirect to social login page
+    A->>C: 3. Login with social account
+    C->>B: 4. Send Authorize Code to Redirect URI
+    B->>C: 5. Request exchange Authorize Code for Token
+    C->>B: 6. Send Access Token and Refresh Token
+    B->>C: 7. Request user information with Access Token
+    C->>B: 8. Send user information containing unique Social ID
+    B->>B: 9. Issue JWT-based Access Token and Refresh Token
+    B->>A: 10. Redirect to app with Access Token and Refresh Token <br> (Both set in cookie)
+    A->>B: 11. Make any requests with JWT cookie
+```
+
+※ RTR(Refresh Token Rotation) 전략 사용
+
 ## 🟨 [Kakao OAuth](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
 
 ### Kakao Developers 사전 작업
