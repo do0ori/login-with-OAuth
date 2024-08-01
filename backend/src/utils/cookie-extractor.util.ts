@@ -7,8 +7,8 @@ import { JwtFromRequestFunction } from 'passport-jwt';
  * @param {string} field_name - The name of the field to extract the token from.
  * @returns {JwtFromRequestFunction} A function that takes a request object and returns the extracted token.
  */
-export function fromCookie(field_name: string): JwtFromRequestFunction {
-    return (req: Request) => {
+export function extractJwtFromCookie(field_name: string): JwtFromRequestFunction {
+    return (req: Request): string | null => {
         let token = null;
         if (req.cookies && field_name in req.cookies && req.cookies[field_name].length > 0) {
             token = req.cookies[field_name];
