@@ -1,11 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import { TokenConfig } from './config/token-config.type';
 import { AccessTokenPayload } from './interfaces/access-token-payload.interface';
 import { RefreshTokenPayload } from './interfaces/refresh-token-payload.interface';
-import { TokenType } from './types/token.type';
 
 import { AllConfigType } from '../config/config.type';
 
@@ -47,17 +46,5 @@ export class TokenService {
         });
 
         return newToken;
-    }
-
-    async verify(token: string, type: TokenType): Promise<AccessTokenPayload | RefreshTokenPayload> {
-        const payload = await this.jwtService.verifyAsync(token, {
-            ignoreExpiration: false,
-        });
-
-        if (payload.type !== type) {
-            throw new UnauthorizedException(`Invalid token type: expected ${type}, but received ${payload.type}`);
-        }
-
-        return payload;
     }
 }

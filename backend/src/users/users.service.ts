@@ -5,6 +5,7 @@ export class UsersService {
     private readonly users = [];
 
     create(user: any) {
+        user.id = this.users.length;
         this.users.push(user);
         return user;
     }
