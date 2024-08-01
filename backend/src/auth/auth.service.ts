@@ -10,6 +10,7 @@ import { OauthProvider } from './types/auth-providers.type';
 
 import { TokenService } from '../token/token.service';
 import { ROLE } from '../users/types/role.type';
+import { STATUS } from '../users/types/status.type';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -145,7 +146,7 @@ export class AuthService {
                 name: socialData.name,
                 provider,
                 role: ROLE.User,
-                status: 'ACTIVE',
+                status: STATUS.Active,
             });
 
             user = await this.usersService.findById(user.id);
