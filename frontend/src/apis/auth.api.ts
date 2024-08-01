@@ -11,21 +11,21 @@ export const AUTH_TYPE_LIST = ["kakao", "naver", "google"];
 
 export type AuthType = keyof URLMap;
 
-export const GET_TOKEN_URL: URLMap = {
-    kakao: "auth/kakao",
-    naver: "auth/naver",
-    google: "auth/google"
+const LOGIN_URL: URLMap = {
+    kakao: "auth/kakao/login",
+    naver: "auth/naver/login",
+    google: "auth/google/login",
 };
 
 export const GET_CODE_URL: URLMap = {
-    kakao: `${API_BASE_URL}/${GET_TOKEN_URL["kakao"]}`,
-    naver: `${API_BASE_URL}/${GET_TOKEN_URL["naver"]}`,
-    google: `${API_BASE_URL}/${GET_TOKEN_URL["google"]}`
-}
+    kakao: `${API_BASE_URL}/${LOGIN_URL["kakao"]}`,
+    naver: `${API_BASE_URL}/${LOGIN_URL["naver"]}`,
+    google: `${API_BASE_URL}/${LOGIN_URL["google"]}`,
+};
 
 export interface UserInfo {
     name: string;
-    profile_image_url: string;
+    profileImageUrl: string;
     email: string;
 }
 

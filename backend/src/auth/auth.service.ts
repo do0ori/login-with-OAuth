@@ -144,6 +144,7 @@ export class AuthService {
                 socialId: socialData.id,
                 email: socialData.email,
                 name: socialData.name,
+                profileImageUrl: socialData.profileImageUrl,
                 provider,
                 role: ROLE.User,
                 status: STATUS.Active,
