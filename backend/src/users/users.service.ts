@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class UsersService {
     private readonly users = [];
 
-    create(user: any) {
+    async create(user: any) {
         user.id = this.users.length;
         this.users.push(user);
         return user;
