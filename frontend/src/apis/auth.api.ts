@@ -23,6 +23,8 @@ export const GET_CODE_URL: URLMap = {
     google: `${API_BASE_URL}/${LOGIN_URL["google"]}`,
 };
 
+export const LOGOUT_URL = `${API_BASE_URL}/auth/logout`;
+
 export interface UserInfo {
     name: string;
     profileImageUrl: string;
