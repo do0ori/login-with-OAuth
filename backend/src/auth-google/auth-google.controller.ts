@@ -25,7 +25,7 @@ export class AuthGoogleController {
     }
 
     @Get('callback')
-    async googleCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response) {
+    async googleCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response): Promise<void> {
         if (!authorizeCode) response.sendStatus(HttpStatus.BAD_REQUEST);
 
         const socialData = await this.authGoogleService.getProfile(authorizeCode);

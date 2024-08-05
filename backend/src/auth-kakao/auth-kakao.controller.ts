@@ -25,7 +25,7 @@ export class AuthKakaoController {
     }
 
     @Get('callback')
-    async kakaoCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response) {
+    async kakaoCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response): Promise<void> {
         if (!authorizeCode) response.sendStatus(HttpStatus.BAD_REQUEST);
 
         const socialData = await this.authKakaoService.getProfile(authorizeCode);
