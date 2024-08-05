@@ -1,6 +1,5 @@
 import { Controller, Get, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import { UsersService } from 'src/users/users.service';
 
 import { AuthService } from './auth.service';
 
@@ -14,7 +13,6 @@ import { User } from '../users/decorators/user.decorator';
 @Controller('auth')
 export class AuthController {
     constructor(
-        private readonly usersService: UsersService,
         private readonly authService: AuthService,
         private readonly cookieSettingHelper: CookieSettingHelper,
     ) {}
@@ -22,14 +20,17 @@ export class AuthController {
     @Get('me')
     @UseGuards(JwtAuthGuard)
     // TODO: Replace return type any with User type and move this method to UsersController later,
-    async getUserInfo(@User() user: any | never) {
+    async getUserInfo(@User() user: any | never): Promise<any | never> {
         return user;
     }
 
     @Get('refresh')
     @UseGuards(JwtRefreshGuard)
-    // TODO: Implement refreshAccessToken method
-    async refreshAccessToken() {}
+    async refreshAccessToken(@User() user: any | never, @Res({ passthrough: true }) response: Response): Promise<void> {
+        const tokenData = await this.authService.generateAndSaveTokens(user);
+
+        this.cookieSettingHelper.setCookies(response, tokenData);
+    }
 
     @Get('logout')
     async logout(@Res({ passthrough: true }) response: Response): Promise<void> {
