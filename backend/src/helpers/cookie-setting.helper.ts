@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CookieOptions, Response } from 'express';
 
-import { LoginData } from '../auth/interfaces/login-data.interface';
+import { LoginAuthData, TokenAuthData } from '../auth/interfaces/auth-data.interface';
 import { AllConfigType } from '../config/config.type';
 import { parse } from '../utils/ms.util';
 
@@ -32,10 +32,13 @@ export class CookieSettingHelper {
         };
     }
 
-    setCookies(response: Response, loginData: LoginData): void {
-        response.cookie('access_token', loginData.accessToken, this.accessCookieOptions);
-        response.cookie('refresh_token', loginData.refreshToken, this.refreshCookieOptions);
-        response.cookie('provider', loginData.provider, this.baseCookieOptions);
+    setCookies(response: Response, authData: TokenAuthData | LoginAuthData): void {
+        response.cookie('access_token', authData.accessToken, this.accessCookieOptions);
+        response.cookie('refresh_token', authData.refreshToken, this.refreshCookieOptions);
+
+        if ('provider' in authData) {
+            response.cookie('provider', authData.provider, this.baseCookieOptions);
+        }
     }
 
     clearCookies(response: Response): void {
