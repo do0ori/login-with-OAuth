@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 
@@ -21,6 +21,8 @@ export class TokenService {
         this.token = this.configService.getOrThrow('token', { infer: true });
     }
 
+    private readonly logger = new Logger(TokenService.name);
+
     async signAccessToken(user: any): Promise<TokenData> {
         const payload: AccessTokenPayload = {
             id: user.id,
@@ -28,10 +30,13 @@ export class TokenService {
             type: 'access',
         };
 
-        return this.signToken(payload, {
+        const tokenData = this.signToken(payload, {
             secret: this.token.accessSecret,
             expiresIn: this.token.accessTokenLifeTime,
         });
+        this.logger.debug(`Access token successfully generated for user: ${user.id}`);
+
+        return tokenData;
     }
 
     async signRefreshToken(user: any): Promise<TokenData> {
@@ -40,10 +45,13 @@ export class TokenService {
             type: 'refresh',
         };
 
-        return this.signToken(payload, {
+        const tokenData = this.signToken(payload, {
             secret: this.token.refreshSecret,
             expiresIn: this.token.refreshTokenLifeTime,
         });
+        this.logger.debug(`Refresh token successfully generated for user: ${user.id}`);
+
+        return tokenData;
     }
 
     private async signToken(payload: Buffer | object, options?: JwtSignOptions): Promise<TokenData> {

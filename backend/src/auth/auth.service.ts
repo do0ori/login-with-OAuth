@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
-import { LoginData } from './interfaces/login-data.interface';
+import { LoginAuthData, TokenAuthData } from './interfaces/auth-data.interface';
 import { SocialData } from './interfaces/social-data.interface';
 
 import { OauthProvider } from './types/auth-providers.type';
@@ -19,7 +19,9 @@ export class AuthService {
         private readonly userTokenService: UserTokenService,
     ) {}
 
-    async validateSocialLogin(provider: OauthProvider, socialData: SocialData): Promise<LoginData> {
+    private readonly logger = new Logger(AuthService.name);
+
+    async validateSocialLogin(provider: OauthProvider, socialData: SocialData): Promise<LoginAuthData> {
         let user = await this.usersService.findBySocialId(socialData.id);
 
         if (!user) {
@@ -36,15 +38,25 @@ export class AuthService {
             await this.userTokenService.create({ userId: user.id });
         }
 
-        const { token: accessToken } = await this.tokenService.signAccessToken(user);
-        const { token: refreshToken, iat, exp } = await this.tokenService.signRefreshToken(user);
-
-        await this.userTokenService.update(user.id, { iat, exp });
+        const { accessToken, refreshToken } = await this.generateAndSaveTokens(user);
 
         return {
             accessToken,
             refreshToken,
             provider,
+        };
+    }
+
+    async generateAndSaveTokens(user: any): Promise<TokenAuthData> {
+        const { token: accessToken } = await this.tokenService.signAccessToken(user);
+        const { token: refreshToken, iat, exp } = await this.tokenService.signRefreshToken(user);
+
+        await this.userTokenService.update(user.id, { iat, exp });
+        this.logger.debug(`Refresh token data successfully updated for user: ${user.id}`);
+
+        return {
+            accessToken,
+            refreshToken,
         };
     }
 }
