@@ -23,8 +23,6 @@ export const GET_CODE_URL: URLMap = {
     google: `${API_BASE_URL}/${LOGIN_URL["google"]}`,
 };
 
-export const LOGOUT_URL = `${API_BASE_URL}/auth/logout`;
-
 export interface UserInfo {
     name: string;
     profileImageUrl: string;
@@ -32,6 +30,10 @@ export interface UserInfo {
 }
 
 export const requestUserInfo = async () => {
-    const response = await httpClient.get<UserInfo>("auth/me");
+    const response = await httpClient.get<UserInfo>("/auth/me");
     return response.data;
+};
+
+export const requestLogout = async () => {
+    await httpClient.post("/auth/logout");
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "./Index";
-import { LOGOUT_URL, UserInfo, requestUserInfo } from "../apis/auth.api";
+import { UserInfo, requestLogout, requestUserInfo } from "../apis/auth.api";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
@@ -37,7 +37,9 @@ const MyPage: React.FC = () => {
             )}
             <LogoutButton
                 onClick={() => {
-                    window.location.href = LOGOUT_URL;
+                    requestLogout().then(() => {
+                        navigate("/");
+                    });
                 }}
             >
                 로그아웃
