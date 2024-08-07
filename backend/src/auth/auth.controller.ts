@@ -1,4 +1,4 @@
-import { Controller, Get, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { AuthService } from './auth.service';
@@ -24,18 +24,19 @@ export class AuthController {
         return user;
     }
 
-    @Get('refresh')
+    @Post('refresh')
     @UseGuards(JwtRefreshGuard)
+    @HttpCode(HttpStatus.OK)
     async refreshAccessToken(@User() user: any | never, @Res({ passthrough: true }) response: Response): Promise<void> {
         const tokenData = await this.authService.generateAndSaveTokens(user);
 
         this.cookieSettingHelper.setCookies(response, tokenData);
     }
 
-    @Get('logout')
+    @Post('logout')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(HttpStatus.NO_CONTENT)
     async logout(@Res({ passthrough: true }) response: Response): Promise<void> {
         this.cookieSettingHelper.clearCookies(response);
-
-        response.redirect('http://localhost:3000/');
     }
 }
