@@ -20,14 +20,14 @@ export class AuthController {
     @Get('me')
     @UseGuards(JwtAuthGuard)
     // TODO: Replace return type any with User type and move this method to UsersController later,
-    async getUserInfo(@User() user: any | never): Promise<any | never> {
+    async getUserInfo(@User() user: any): Promise<any | never> {
         return user;
     }
 
     @Post('refresh')
     @UseGuards(JwtRefreshGuard)
     @HttpCode(HttpStatus.OK)
-    async refreshAccessToken(@User() user: any | never, @Res({ passthrough: true }) response: Response): Promise<void> {
+    async refreshAccessToken(@User() user: any, @Res({ passthrough: true }) response: Response): Promise<void> {
         const tokenData = await this.authService.generateAndSaveTokens(user);
 
         this.cookieSettingHelper.setCookies(response, tokenData);
@@ -36,7 +36,7 @@ export class AuthController {
     @Post('logout')
     @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.NO_CONTENT)
-    async logout(@User() user: any | never, @Res({ passthrough: true }) response: Response): Promise<void> {
+    async logout(@User() user: any, @Res({ passthrough: true }) response: Response): Promise<void> {
         await this.authService.deleteRefreshTokenData(user);
 
         this.cookieSettingHelper.clearCookies(response);
