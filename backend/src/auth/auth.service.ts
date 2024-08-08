@@ -59,4 +59,9 @@ export class AuthService {
             refreshToken,
         };
     }
+
+    async deleteRefreshTokenData(user: any): Promise<void> {
+        await this.userTokenService.update(user.id, { iat: null, exp: null });
+        this.logger.debug(`Refresh token data successfully deleted for user: ${user.id}`);
+    }
 }

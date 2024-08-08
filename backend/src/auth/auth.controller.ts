@@ -36,7 +36,9 @@ export class AuthController {
     @Post('logout')
     @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.NO_CONTENT)
-    async logout(@Res({ passthrough: true }) response: Response): Promise<void> {
+    async logout(@User() user: any | never, @Res({ passthrough: true }) response: Response): Promise<void> {
+        await this.authService.deleteRefreshTokenData(user);
+
         this.cookieSettingHelper.clearCookies(response);
     }
 }
