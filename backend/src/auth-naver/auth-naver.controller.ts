@@ -26,7 +26,10 @@ export class AuthNaverController {
 
     @Get('callback')
     async naverCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response): Promise<void> {
-        if (!authorizeCode) response.sendStatus(HttpStatus.BAD_REQUEST);
+        if (!authorizeCode) {
+            response.sendStatus(HttpStatus.BAD_REQUEST);
+            return;
+        }
 
         const socialData = await this.authNaverService.getProfile(authorizeCode);
         const loginData = await this.authService.validateSocialLogin('naver', socialData);
