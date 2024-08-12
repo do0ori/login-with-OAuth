@@ -1,41 +1,31 @@
-import { Controller, Get, HttpStatus, Query, Res } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Controller, Get, Res, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { AuthService } from 'src/auth/auth.service';
 
-import { AuthGoogleService } from './auth-google.service';
-
-import { AllConfigType } from '../config/config.type';
+import { SocialData } from '../auth/interfaces/social-data.interface';
 import { CookieSettingHelper } from '../helpers/cookie-setting.helper';
+import { SocialProfile } from '../users/decorators/user.decorator';
 
 @Controller('auth/google')
 export class AuthGoogleController {
     constructor(
         private readonly authService: AuthService,
-        private readonly authGoogleService: AuthGoogleService,
-        private readonly configService: ConfigService<AllConfigType>,
         private readonly cookieSettingHelper: CookieSettingHelper,
     ) {}
 
     @Get('login')
-    async googleAuthorize(@Res({ passthrough: true }) response: Response): Promise<void> {
-        const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${this.configService.getOrThrow('google.clientId', { infer: true })}&redirect_uri=${this.configService.getOrThrow('google.redirectURI', { infer: true })}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
-
-        response.redirect(url);
-    }
+    @UseGuards(AuthGuard('google'))
+    async googleAuthorize(): Promise<void> {}
 
     @Get('callback')
-    async googleCallback(@Query('code') authorizeCode, @Res({ passthrough: true }) response: Response): Promise<void> {
-        if (!authorizeCode) {
-            response.sendStatus(HttpStatus.BAD_REQUEST);
-            return;
-        }
-
-        const socialData = await this.authGoogleService.getProfile(authorizeCode);
-        const loginData = await this.authService.validateSocialLogin('google', socialData);
-
+    @UseGuards(AuthGuard('google'))
+    async googleCallback(
+        @SocialProfile() socialData: SocialData,
+        @Res({ passthrough: true }) response: Response,
+    ): Promise<void> {
+        const loginData = await this.authService.validateSocialLogin(socialData);
         this.cookieSettingHelper.setCookies(response, loginData);
-
         response.redirect('http://localhost:3000/me');
     }
 }

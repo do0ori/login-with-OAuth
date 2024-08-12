@@ -3,8 +3,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { LoginAuthData, TokenAuthData } from './interfaces/auth-data.interface';
 import { SocialData } from './interfaces/social-data.interface';
 
-import { OauthProvider } from './types/auth-providers.type';
-
 import { TokenService } from '../token/token.service';
 import { UserTokenService } from '../userToken/userToken.service';
 import { ROLE } from '../users/types/role.type';
@@ -21,7 +19,7 @@ export class AuthService {
 
     private readonly logger = new Logger(AuthService.name);
 
-    async validateSocialLogin(provider: OauthProvider, socialData: SocialData): Promise<LoginAuthData> {
+    async validateSocialLogin(socialData: SocialData): Promise<LoginAuthData> {
         let user = await this.usersService.findBySocialId(socialData.id);
 
         if (!user) {
@@ -30,7 +28,7 @@ export class AuthService {
                 email: socialData.email,
                 name: socialData.name,
                 profileImageUrl: socialData.profileImageUrl,
-                provider,
+                provider: socialData.provider,
                 role: ROLE.User,
                 status: STATUS.Active,
             });
@@ -43,7 +41,7 @@ export class AuthService {
         return {
             accessToken,
             refreshToken,
-            provider,
+            provider: socialData.provider,
         };
     }
 
