@@ -4,14 +4,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { AuthNaverController } from './auth-naver.controller';
-import { AuthNaverService } from './auth-naver.service';
+
+import { NaverStrategy } from './strategies/naver.strategy';
 
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
     imports: [HttpModule, ConfigModule, AuthModule],
     controllers: [AuthNaverController],
-    providers: [AuthNaverService],
-    exports: [AuthNaverService],
+    providers: [NaverStrategy],
 })
 export class AuthNaverModule {}
