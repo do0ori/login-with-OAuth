@@ -1,6 +1,6 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common';
 
-import { SocialData } from '../../auth/interfaces/social-data.interface';
+import { SocialProfileDto } from '../../auth/dto/social-profile.dto';
 
 // TODO: Replace return type any with User type later
 export const User = createParamDecorator((data: never, context: ExecutionContext): Promise<any> => {
@@ -8,7 +8,9 @@ export const User = createParamDecorator((data: never, context: ExecutionContext
     return request.user;
 });
 
-export const SocialProfile = createParamDecorator((data: never, context: ExecutionContext): Promise<SocialData> => {
-    const request = context.switchToHttp().getRequest();
-    return request.user;
-});
+export const SocialProfile = createParamDecorator(
+    (data: never, context: ExecutionContext): Promise<SocialProfileDto> => {
+        const request = context.switchToHttp().getRequest();
+        return request.user;
+    },
+);

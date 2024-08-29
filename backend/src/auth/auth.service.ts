@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { LoginAuthData, TokenAuthData } from './interfaces/auth-data.interface';
-import { SocialData } from './interfaces/social-data.interface';
+import { LoginAuthDto, TokenAuthDto } from './dto/auth.dto';
+import { SocialProfileDto } from './dto/social-profile.dto';
 
 import { TokenService } from '../token/token.service';
 import { UserTokenService } from '../userToken/userToken.service';
@@ -19,16 +19,16 @@ export class AuthService {
 
     private readonly logger = new Logger(AuthService.name);
 
-    async validateSocialLogin(socialData: SocialData): Promise<LoginAuthData> {
-        let user = await this.usersService.findBySocialId(socialData.id);
+    async validateSocialLogin(socialProfileDto: SocialProfileDto): Promise<LoginAuthDto> {
+        let user = await this.usersService.findBySocialId(socialProfileDto.id);
 
         if (!user) {
             user = await this.usersService.create({
-                socialId: socialData.id,
-                email: socialData.email,
-                name: socialData.name,
-                profileImageUrl: socialData.profileImageUrl,
-                provider: socialData.provider,
+                socialId: socialProfileDto.id,
+                email: socialProfileDto.email,
+                name: socialProfileDto.name,
+                profileImageUrl: socialProfileDto.profileImageUrl,
+                provider: socialProfileDto.provider,
                 role: ROLE.User,
                 status: STATUS.Active,
             });
@@ -41,11 +41,11 @@ export class AuthService {
         return {
             accessToken,
             refreshToken,
-            provider: socialData.provider,
+            provider: socialProfileDto.provider,
         };
     }
 
-    async generateAndSaveTokens(user: any): Promise<TokenAuthData> {
+    async generateAndSaveTokens(user: any): Promise<TokenAuthDto> {
         const { token: accessToken } = await this.tokenService.signAccessToken(user);
         const { token: refreshToken, iat, exp } = await this.tokenService.signRefreshToken(user);
 
