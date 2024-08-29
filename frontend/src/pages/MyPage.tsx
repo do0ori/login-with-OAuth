@@ -4,10 +4,26 @@ import { UserInfo, requestLogout, requestUserInfo } from "../apis/auth.api";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import Google from "../assets/icons/ic-provider-google.svg";
+import Kakao from "../assets/icons/ic-provider-kakao.svg";
+import Naver from "../assets/icons/ic-provider-naver.svg";
 
 const MyPage: React.FC = () => {
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
     const navigate = useNavigate();
+
+    const ProviderIcon = (provider: string) => {
+        switch (provider) {
+            case "kakao":
+                return Kakao;
+            case "google":
+                return Google;
+            case "naver":
+                return Naver;
+            default:
+                return "";
+        }
+    };
 
     useEffect(() => {
         requestUserInfo()
@@ -31,8 +47,14 @@ const MyPage: React.FC = () => {
                         src={userInfo.profileImageUrl}
                         alt="프로필 이미지"
                     />
-                    <p>이름: {userInfo.name}</p>
-                    <p>이메일: {userInfo.email}</p>
+                    <Wrapper>
+                        <UserName>{userInfo.name}님</UserName>
+                        <UserBadge
+                            src={ProviderIcon(userInfo.provider)}
+                            alt={`${userInfo.provider} badge`}
+                        />
+                    </Wrapper>
+                    <p>{userInfo.email}</p>
                 </div>
             )}
             <LogoutButton
@@ -83,6 +105,20 @@ const LogoutButton = styled.button`
     &:hover {
         filter: brightness(0.9);
     }
+`;
+
+const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const UserName = styled.p`
+    margin: 0;
+`;
+
+const UserBadge = styled.img`
+    margin-left: 8px;
 `;
 
 export default MyPage;
