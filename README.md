@@ -6,7 +6,7 @@
   <a href="#google-oauth"><img src="https://img.shields.io/badge/Google-4285F4?style=for-the-badge"></a>
 </p>
 
-https://github.com/do0ori/login-with-OAuth/assets/71831926/606503b1-0e98-4db8-aa47-731b479fba3c
+https://github.com/user-attachments/assets/062db303-9a0c-48d8-8256-496823f2dcb6
 
 ## 🔄 OAuth Login Flow
 
